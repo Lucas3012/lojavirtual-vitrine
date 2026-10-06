@@ -1,0 +1,27 @@
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#111827,#e63946);padding:16px}
+.login-box{background:#fff;border-radius:16px;padding:24px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.login-box label{display:block;margin:10px 0;font-size:14px}
+.login-box input{width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-top:4px}
+.hint{font-size:13px;background:#f6f7fb;padding:10px;border-radius:10px}
+.error{color:#e63946}
+.admin-top{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#111;color:#fff}
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px)}
+.admin-menu{background:#fff;border-right:1px solid #eee;padding:12px;display:flex;flex-direction:column;gap:8px}
+.admin-menu button{padding:10px;border-radius:10px;border:1px solid #eee;background:#f8f9fb;cursor:pointer;text-align:left}
+.admin-menu button.active{background:#111;color:#fff}
+.admin-main{padding:18px}
+.tab-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff;padding:16px;border-radius:12px}
+.form-grid label{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.form-grid input,.form-grid select,.form-grid textarea{padding:10px;border-radius:10px;border:1px solid #ddd}
+.form-grid .full{grid-column:1/-1}
+.form-actions{display:flex;gap:8px}
+.check{flex-direction:row!important;align-items:center;gap:8px!important}
+#adminSearch{width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin:10px 0}
+.prod-row{display:grid;grid-template-columns:64px 1fr auto;gap:10px;background:#fff;padding:10px;border-radius:12px;margin-bottom:8px;align-items:center}
+.prod-row img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+.prod-row .actions{display:flex;gap:6px;flex-wrap:wrap}
+.share-preview{background:#fff;border-radius:12px;padding:14px;margin:12px 0;white-space:pre-wrap;border:1px dashed #ccc}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap}
+.steps{background:#fff;padding:16px 16px 16px 32px;border-radius:12px}
+@media(max-width:800px){.admin-layout{grid-template-columns:1fr}.admin-menu{flex-direction:row;overflow:auto}.form-grid{grid-template-columns:1fr}}

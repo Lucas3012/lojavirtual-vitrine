@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | Achadinhos & Ofertas</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <h1>🔒 Área Admin</h1>
+    <p>Gerencie seus links de afiliado</p>
+    <label>Usuário<input id="loginUser" value="admin" autocomplete="username"></label>
+    <label>Senha<input id="loginPass" type="password" value="" placeholder="••••••••" autocomplete="current-password"></label>
+    <button id="btnLogin" class="btn btn-primary" style="width:100%">Entrar</button>
+    <p class="hint">Primeiro acesso? Use:<br><code>usuário: admin</code> / <code>senha: admin123</code></p>
+    <p id="loginError" class="error"></p>
+    <a href="index.html">← Voltar para vitrine</a>
+  </div>
+</div>
+
+<div id="adminApp" class="hidden">
+  <header class="admin-top">
+    <strong>📊 Painel da Loja</strong>
+    <div>
+      <a href="index.html" target="_blank" class="btn btn-ghost">Ver vitrine</a>
+      <button id="btnLogout" class="btn btn-ghost">Sair</button>
+    </div>
+  </header>
+  <div class="admin-layout">
+    <aside class="admin-menu">
+      <button data-tab="produtos" class="active">📦 Produtos (<span id="totalP">0</span>)</button>
+      <button data-tab="novo">➕ Novo / Editar</button>
+      <button data-tab="config">⚙️ Loja e Redes</button>
+      <button data-tab="divulgar">📣 Divulgar (Face/Reels)</button>
+    </aside>
+    <main class="admin-main">
+      <section id="tab-produtos" class="tab">
+        <div class="tab-head">
+          <h2>Produtos cadastrados</h2>
+          <div>
+            <button id="btnExport" class="btn btn-ghost">⬇️ Backup</button>
+            <button id="btnSeed" class="btn btn-ghost">↺ Restaurar exemplos</button>
+          </div>
+        </div>
+        <input id="adminSearch" placeholder="Filtrar produtos...">
+        <div id="productTable"></div>
+      </section>
+
+      <section id="tab-novo" class="tab hidden">
+        <h2 id="formTitle">Cadastrar oferta com link de afiliado</h2>
+        <form id="productForm" class="form-grid">
+          <input type="hidden" id="f_id">
+          <label>Título do produto*<input id="f_title" required placeholder="Ex: Fone Bluetooth TWS Pro 2"></label>
+          <label>Categoria*<input id="f_category" required placeholder="Ex: Eletrônicos, Casa, Beleza" list="catList"><datalist id="catList"></datalist></label>
+          <label>Loja*
+            <select id="f_store">
+              <option value="mercadolivre">Mercado Livre</option>
+              <option value="shopee">Shopee</option>
+              <option value="tiktok">TikTok Shop</option>
+            </select>
+          </label>
+          <label>Link de afiliado* (cole aqui)<input id="f_link" required placeholder="https://...seu link de afiliado..."></label>
+          <label>Imagem (URL)<input id="f_image" placeholder="https://... ou deixe vazio para automática"></label>
+          <label>Preço atual (R$)*<input id="f_price" type="number" step="0.01" required placeholder="99.90"></label>
+          <label>Preço antigo (R$)<input id="f_oldprice" type="number" step="0.01" placeholder="149.90"></label>
+          <label class="check"><input type="checkbox" id="f_featured"> ⭐ Destaque na vitrine</label>
+          <label class="full">Descrição / legenda pronta p/ Face e Reels<textarea id="f_desc" rows="3" placeholder="Ex: Air Fryer 5L com 50% OFF só hoje!"></textarea></label>
+          <div class="full form-actions">
+            <button type="submit" class="btn btn-primary">💾 Salvar produto</button>
+            <button type="button" id="btnCancelEdit" class="btn btn-ghost">Limpar</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="tab-config" class="tab hidden">
+        <h2>Configurações da loja</h2>
+        <div class="form-grid">
+          <label>Nome da loja<input id="c_name"></label>
+          <label>Texto do topo<input id="c_hero"></label>
+          <label>Link da página de vendas (Facebook)<input id="c_facebook" placeholder="https://facebook.com/suapagina"></label>
+          <label>Instagram<input id="c_instagram" placeholder="https://instagram.com/..."></label>
+          <label>WhatsApp / Grupo<input id="c_whatsapp" placeholder="https://chat.whatsapp.com/..."></label>
+          <label>Grupos do Facebook (um por linha)<textarea id="c_groups" rows="3" placeholder="https://facebook.com/groups/seugrupo1"></textarea></label>
+          <label class="full">Login admin - usuário<input id="c_user"></label>
+          <label class="full">Nova senha admin (deixe vazio p/ manter)<input id="c_pass" type="password"></label>
+          <div class="full"><button id="btnSaveConfig" class="btn btn-primary">Salvar configurações</button></div>
+          <div class="full"><label>Importar backup (JSON)<input type="file" id="importFile" accept=".json"></label></div>
+        </div>
+      </section>
+
+      <section id="tab-divulgar" class="tab hidden">
+        <h2>Kit de divulgação rápida</h2>
+        <p>Escolha um produto para gerar texto pronto para <b>Feed, Grupos e Reels</b>. Depois é só copiar e colar.</p>
+        <select id="shareSelect"></select>
+        <div id="sharePreview" class="share-preview"></div>
+        <div class="share-btns">
+          <button class="btn btn-primary" id="btnCopyCaption">📋 Copiar legenda Reels/Feed</button>
+          <button class="btn btn-shop" id="btnShareFace">📘 Postar no Facebook</button>
+          <button class="btn btn-shop" id="btnShareWpp">💬 Enviar WhatsApp</button>
+          <button class="btn btn-ghost" id="btnCopyLink">🔗 Copiar só o link</button>
+        </div>
+        <h3>Como divulgar (passo a passo)</h3>
+        <ol class="steps">
+          <li><b>Feed da página:</b> clique em Postar no Facebook, cole a legenda gerada, publique.</li>
+          <li><b>Grupos:</b> abra o botão Postar, troque a URL ou cole manualmente em cada grupo cadastrado em Configurações.</li>
+          <li><b>Reels:</b> baixe a foto do produto, crie o Reels com a foto/vídeo, cole a legenda copiada + link na bio/stories (o Instagram/Face não permite link clicável na legenda do Reels, use “link na bio” ou stories com link).</li>
+          <li><b>TikTok Shop:</b> poste o vídeo mostrando o produto e use o link de afiliado no carrinho laranja.</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

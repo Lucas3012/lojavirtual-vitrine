@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Achadinhos & Ofertas | Vitrine</title>
+<meta name="description" content="Os melhores achadinhos do Mercado Livre, Shopee e TikTok Shop com links confiáveis.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="index.html" class="logo">🛍️ <span id="storeName">Achadinhos & Ofertas</span></a>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Buscar produto... ex: fone, air fryer">
+    </div>
+    <nav>
+      <a href="admin.html" class="btn btn-ghost">🔒 Admin</a>
+    </nav>
+  </div>
+  <div class="hero">
+    <div class="container">
+      <h1 id="heroTitle">Os melhores achadinhos em um só lugar 🔥</h1>
+      <p id="heroSub">Mercado Livre • Shopee • TikTok Shop — links verificados, preço baixo todo dia.</p>
+      <div class="hero-badges">
+        <span>✔️ Links de afiliado verificados</span>
+        <span>⚡ Atualizado diariamente</span>
+        <span>📲 Pronto p/ compartilhar no Face e Reels</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="filters">
+    <div class="pills" id="storeFilter">
+      <button data-store="todos" class="active">Todos</button>
+      <button data-store="mercadolivre">Mercado Livre</button>
+      <button data-store="shopee">Shopee</button>
+      <button data-store="tiktok">TikTok Shop</button>
+    </div>
+    <div class="filters-row">
+      <select id="categoryFilter"><option value="todos">Todas categorias</option></select>
+      <select id="sortFilter">
+        <option value="destaque">Ordenar: Destaques</option>
+        <option value="menor">Menor preço</option>
+        <option value="maior">Maior preço</option>
+        <option value="desconto">Maior desconto</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="featuredSection">
+    <h2>⭐ Destaques da semana</h2>
+    <div id="featuredGrid" class="grid"></div>
+  </section>
+
+  <section>
+    <h2>🛒 Todas as ofertas <small id="count"></small></h2>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty hidden">Nenhum produto encontrado. Tente outra busca.</div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <strong id="footerName">Achadinhos & Ofertas</strong>
+      <p>Links de afiliado: ao comprar pelos nossos links você não paga nada a mais e ajuda a página.</p>
+    </div>
+    <div>
+      <strong>Siga e compartilhe</strong>
+      <div class="social">
+        <a id="linkFace" href="#" target="_blank">Facebook</a>
+        <a id="linkInsta" href="#" target="_blank">Instagram</a>
+        <a id="linkWpp" href="#" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div>
+      <strong>Lojas parceiras</strong>
+      <p>Mercado Livre • Shopee • TikTok Shop</p>
+      <a href="admin.html">Acesso do lojista</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal produto -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button id="modalClose" class="modal-close">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/vitrine.js"></script>
+</body>
+</html>
