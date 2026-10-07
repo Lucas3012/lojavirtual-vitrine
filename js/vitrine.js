@@ -45,9 +45,9 @@ function cardHTML(p){
         <button class="btn btn-ghost card-eye" data-open="${p.id}" title="Ver detalhes">👁️</button>
       </div>
       <div class="share-row">
-        <button data-share="wpp" data-id="${p.id}" title="WhatsApp">💬 WhatsApp</button>
-        <button data-share="face" data-id="${p.id}" title="Facebook">📘 Facebook</button>
-        <button data-share="copy" data-id="${p.id}" title="Copiar link">🔗</button>
+        <button data-share="wpp" data-id="${p.id}" title="Compartilhar no WhatsApp">${ICON.wa}<span>WhatsApp</span></button>
+        <button data-share="face" data-id="${p.id}" title="Compartilhar no Facebook">${ICON.fb}<span>Facebook</span></button>
+        <button data-share="copy" data-id="${p.id}" title="Copiar link" class="share-copy">${ICON.link}</button>
       </div>
     </div>
   </article>`;
@@ -104,9 +104,9 @@ function openModal(id){
           <strong>📣 Kit compartilhar (Face / Grupos / Reels)</strong>
           <textarea id="capText" readonly>${cap}</textarea>
           <div class="kit-btns">
-            <button class="btn btn-primary" id="kCopy">📋 Copiar legenda</button>
-            <a class="btn" target="_blank" href="${faceShareUrl(p.link, p.title+' '+brl(p.price))}">📘 Feed/Grupo</a>
-            <a class="btn" target="_blank" href="${wppShareUrl(cap)}">💬 WhatsApp</a>
+            <button class="btn btn-primary" id="kCopy">${ICON.copy}<span> Copiar legenda</span></button>
+            <a class="btn" target="_blank" href="${faceShareUrl(p.link, p.title+' '+brl(p.price))}">${ICON.fb}<span> Feed/Grupo</span></a>
+            <a class="btn" target="_blank" href="${wppShareUrl(cap)}">${ICON.wa}<span> WhatsApp</span></a>
           </div>
           <small>Reels: copie a legenda, poste o vídeo com a foto do produto e coloque o link nos stories/bio.</small>
         </div>

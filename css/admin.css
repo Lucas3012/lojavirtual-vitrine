@@ -69,6 +69,7 @@
   white-space:pre-wrap;border:1px dashed #bbb;font-size:14px;line-height:1.5;
 }
 .share-btns{display:flex;gap:8px;flex-wrap:wrap}
+.share-btns .btn{display:inline-flex;align-items:center;gap:7px}
 .steps{background:#fff;padding:16px 18px 16px 34px;border-radius:8px;border:1px solid #eee;line-height:1.7}
 
 @media(max-width:800px){
