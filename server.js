@@ -32,12 +32,16 @@ const server = http.createServer((req, res) => {
   fs.stat(filePath, (err, stats) => {
     if (!err && stats.isFile()) {
       const ext = path.extname(filePath).toLowerCase();
-      res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+      res.writeHead(200, {
+        'Content-Type': MIME[ext] || 'application/octet-stream',
+        'Access-Control-Allow-Origin': '*',
+        'Cross-Origin-Resource-Policy': 'cross-origin'
+      });
       fs.createReadStream(filePath).pipe(res);
     } else {
       // SPA fallback: /admin -> admin.html
       if (urlPath === '/admin') {
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Access-Control-Allow-Origin': '*' });
         fs.createReadStream(path.join(ROOT, 'admin.html')).pipe(res);
       } else {
         res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
