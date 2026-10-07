@@ -6,7 +6,7 @@ function isLogged(){ return localStorage.getItem('loja_admin_auth_v1')==='1'; }
 function showApp(logged){
   $('loginScreen').classList.toggle('hidden', logged);
   $('adminApp').classList.toggle('hidden', !logged);
-  if(logged) refreshAll();
+  if(logged) fetchProducts().then(()=>refreshAll());
 }
 
 $('btnLogin').onclick = ()=>{
@@ -77,13 +77,16 @@ window.editProduct = (id)=>{
 window.delProduct = (id)=>{
   if(!confirm('Excluir este produto?')) return;
   saveProducts(getProducts().filter(p=>p.id!==id));
+  deleteProductRemote(id);
   refreshAll();
 };
 window.toggleFeat = (id)=>{
   const list = getProducts();
   const p = list.find(x=>x.id===id);
   p.featured=!p.featured;
-  saveProducts(list); refreshAll();
+  saveProducts(list);
+  pushProduct(p);
+  refreshAll();
 };
 window.shareGo = (id)=>{
   document.querySelector('[data-tab="divulgar"]').click();
@@ -115,6 +118,7 @@ $('productForm').onsubmit = (e)=>{
     list[i]=data;
   } else list.unshift(data);
   saveProducts(list);
+  pushProduct(data).then(ok=>{ if(!ok) alert('⚠️ Produto salvo localmente, mas falhou ao publicar no banco (sem internet?). Ele aparece para você. Tente salvar de novo.'); });
   editingId=null;
   e.target.reset();
   $('formTitle').textContent='Cadastrar oferta com link de afiliado';
@@ -141,7 +145,7 @@ $('btnExport').onclick = ()=>{
   const a = document.createElement('a');
   a.href=URL.createObjectURL(blob); a.download='backup-loja.json'; a.click();
 };
-$('btnSeed').onclick = ()=>{ if(confirm('Restaurar produtos de exemplo?')){ localStorage.removeItem('loja_products_v1'); refreshAll(); } };
+$('btnSeed').onclick = ()=>{ if(confirm('Restaurar produtos de exemplo?')){ restoreDefaultsRemote().then(()=>{ refreshAll(); alert('Exemplos restaurados!'); }); } };
 $('importFile').addEventListener('change', e=>{
   const f = e.target.files[0];
   if(!f) return;

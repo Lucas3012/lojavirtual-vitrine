@@ -146,3 +146,10 @@ allProducts = getProducts();
 applyConfig();
 fillCategories();
 render();
+
+// Sincroniza com o banco (produtos publicados pelo admin aparecem para todos)
+fetchProducts().then(list=>{
+  allProducts = list;
+  fillCategories();
+  render();
+});

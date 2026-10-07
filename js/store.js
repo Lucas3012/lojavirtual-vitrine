@@ -1,10 +1,14 @@
-// Camada de dados compartilhada (localStorage) - funciona sem servidor
+// Camada de dados compartilhada - Supabase (produtos visiveis para todos) + cache local
 const DB = {
   products: 'loja_products_v1',
   config: 'loja_config_v1',
   auth: 'loja_admin_auth_v1',
   clicks: 'loja_clicks_v1'
 };
+
+// Conexao Supabase (chave publica/segura para o front)
+const SUPA_URL = 'https://icchspesfqmeakbajlfh.supabase.co';
+const SUPA_KEY = 'sb_publishable_f6m6zg_Lu0ZsFlZNPngfDw_gATzwmz2';
 
 const STORE_LABEL = {
   mercadolivre: 'Mercado Livre',
@@ -91,14 +95,11 @@ function defaultConfig(){
   };
 }
 
+/* ---------- cache local (fallback offline) ---------- */
 function getProducts(){
   try{
     const raw = localStorage.getItem(DB.products);
-    if(!raw){
-      const d = defaultProducts();
-      localStorage.setItem(DB.products, JSON.stringify(d));
-      return d;
-    }
+    if(!raw) return defaultProducts();
     return JSON.parse(raw);
   }catch(e){ return defaultProducts(); }
 }
@@ -111,6 +112,94 @@ function getConfig(){
   }catch(e){ return defaultConfig(); }
 }
 function saveConfig(c){ localStorage.setItem(DB.config, JSON.stringify(c)); }
+
+/* ---------- Supabase (produtos compartilhados) ---------- */
+async function supaRequest(path, opts){
+  const res = await fetch(SUPA_URL + '/rest/v1/' + path, {
+    method: (opts && opts.method) || 'GET',
+    headers: {
+      apikey: SUPA_KEY,
+      Authorization: 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      ...(opts && opts.headers ? opts.headers : {})
+    },
+    body: opts && opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if(!res.ok) throw new Error('supabase ' + res.status);
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
+function rowToProduct(r){
+  return {
+    id: r.id,
+    title: r.title,
+    category: r.category || 'Geral',
+    store: r.store || 'mercadolivre',
+    link: r.link || '',
+    image: r.image || '',
+    price: Number(r.price) || 0,
+    oldprice: Number(r.oldprice) || 0,
+    featured: !!r.featured,
+    desc: r.desc || ''
+  };
+}
+function productToRow(p){
+  return {
+    id: p.id,
+    title: p.title,
+    category: p.category || 'Geral',
+    store: p.store || 'mercadolivre',
+    link: p.link || '',
+    image: p.image || '',
+    price: Number(p.price) || 0,
+    oldprice: Number(p.oldprice) || 0,
+    featured: !!p.featured,
+    desc: p.desc || ''
+  };
+}
+
+// Baixa produtos do banco (todos os visitantes veem). Em caso de falha, usa cache local.
+async function fetchProducts(){
+  try{
+    const rows = await supaRequest('products?select=*');
+    const list = (rows || []).map(rowToProduct);
+    saveProducts(list);
+    return list;
+  }catch(e){
+    return getProducts();
+  }
+}
+
+// Salva/atualiza um produto no banco (upsert)
+async function pushProduct(p){
+  try{
+    await supaRequest('products', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: productToRow(p)
+    });
+    return true;
+  }catch(e){ return false; }
+}
+
+// Remove do banco
+async function deleteProductRemote(id){
+  try{
+    await supaRequest('products?id=eq.' + encodeURIComponent(id), { method: 'DELETE' });
+    return true;
+  }catch(e){ return false; }
+}
+
+// Restaura os exemplos no banco
+async function restoreDefaultsRemote(){
+  const list = defaultProducts();
+  for(const p of list){ await pushProduct(p); }
+  saveProducts(list);
+  return list;
+}
+
+/* ---------- utilidades ---------- */
 function trackClick(id){
   try{
     const c = JSON.parse(localStorage.getItem(DB.clicks)||'{}');
