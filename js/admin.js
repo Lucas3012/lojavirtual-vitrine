@@ -60,6 +60,7 @@ function refreshAll(){
   $('c_whatsapp').value = cfg.whatsapp||''; $('c_groups').value = cfg.groups||'';
   $('c_user').value = cfg.user||'admin';
   $('catList').innerHTML = [...new Set(list.map(p=>p.category))].map(c=>`<option value="${c}">`).join('');
+  buildMarketing();
 }
 
 window.editProduct = (id)=>{
@@ -178,5 +179,166 @@ $('btnShareFace').onclick = ()=>{
   if(cfg.groups) alert('Dica: você tem grupos cadastrados em Configurações. Abra cada um e cole a legenda lá também para vender mais!');
 };
 $('btnShareWpp').onclick = ()=>{ window.open(wppShareUrl($('sharePreview').textContent),'_blank'); };
+
+/* ---------- Kit de anúncios (Google / Meta / Posts) ---------- */
+function utmLink(src, medium){
+  const u = new URL('index.html', location.href);
+  u.search = '?utm_source=' + src + '&utm_medium=' + medium + '&utm_campaign=achadinhos_ofertas';
+  return u.toString();
+}
+
+function buildMarketing(){
+  const list = getProducts();
+  const cfg = getConfig();
+  const kitG = document.getElementById('kitGoogle');
+  if(!list.length || !kitG) return;
+
+  const barato = list.reduce((a,b)=> (b.price < a.price ? b : a), list[0]);
+  const destaque = list.find(p=>p.featured) || list[0];
+  const comDesconto = list.find(p=>discount(p) > 0) || destaque;
+  const top = list.slice(0, 3);
+  const urlG = utmLink('google', 'cpc');
+  const urlF = utmLink('facebook', 'paid_social');
+  const urlI = utmLink('instagram', 'social');
+  const barra = '='.repeat(58);
+
+  /* ----- GOOGLE ADS ----- */
+  const palavras = ['air fryer barata','air fryer em oferta','air fryer comprar','fone bluetooth barato','fone tws com desconto','headphone com desconto','ofertas do dia','ofertas do mercadolivre','ofertas da shopee','promoção hoje online','cupom de desconto hoje','site de achadinhos','achados e achadinhos','melhores ofertas online','frete gratis brasil','comprar barato pela internet'];
+  const negativas = ['gratis','usado','vender','vaga','emprego','tabela','manual','como fazer','segunda mao','reclamacao','cortesia'];
+  const titulos = ['Achadinhos e Ofertas do Dia','Air Fryer a partir de R$419','Fone Bluetooth a R$35,90','Frete Gratis nas Ofertas','So Hoje: Desconto Imperdivel','Ofertas Mercado Livre','Ofertas da Shopee Agora','Ate 12x sem Juros','Preco Baixo Todo Dia','Links Verificados','Economize ate 30% Hoje','Entrega pra Todo Brasil','Confira as Ofertas Agora','Vitrine com ' + list.length + ' Ofertas','Compre pelo Celular Ja'];
+  const descricoes = ['Air Fryer, fone e headphone com frete gratis. Ofertas atualizadas todo dia na vitrine.','Melhores promocoes do Mercado Livre e da Shopee em um so lugar. Clique e confira ja!','Ate 12x sem juros e entrega pra todo o Brasil. Estoque limitado nas ofertas do dia.','Ate 30% OFF em air fryer e fones. Preco baixo de verdade, so hoje. Clique agora!'];
+
+  const g = [];
+  g.push('CAMPANHA GOOGLE ADS - ' + cfg.name + ' | Rede de Pesquisa');
+  g.push(barra);
+  g.push('');
+  g.push('1) CONFIGURACAO DA CAMPANHA');
+  g.push('  Objetivo......: Trafego do site');
+  g.push('  Tipo..........: Rede de Pesquisa (+ Display opcional)');
+  g.push('  Pais / Idioma.: Brasil / Portugues');
+  g.push('  URL final.....: ' + urlG);
+  g.push('  Orcamento.....: R$ 15 a 20 por dia (comece com R$ 15)');
+  g.push('  Lance.........: Maximizar cliques');
+  g.push('  Cronograma....: Sempre ativa (24h)');
+  g.push('');
+  g.push('2) PALAVRAS-CHAVE (correspondencia de frase - cole uma por linha)');
+  palavras.forEach(k => g.push('  "' + k + '"'));
+  g.push('');
+  g.push('3) PALAVRAS-CHAVE NEGATIVAS');
+  g.push('  ' + negativas.join(', '));
+  g.push('');
+  g.push('4) ANUNCIO DE PESQUISA RESPONSIVO');
+  g.push('  TITULOS (max 30 caracteres):');
+  titulos.forEach(t => g.push('    ' + t + '   [' + t.length + ']'));
+  g.push('');
+  g.push('  DESCRICOES (max 90 caracteres):');
+  descricoes.forEach(d => g.push('    ' + d + '   [' + d.length + ']'));
+  g.push('');
+  g.push('5) EXTENSOES (anexos)');
+  g.push('  Link do site (4): "Ofertas do dia" | "Air Fryers" | "Fones e Headphones" | "Mercado Livre"');
+  g.push('     -> todas apontando para: ' + urlG);
+  g.push('  Chamada........: Frete gratis | Ate 12x sem juros | Confira ja');
+  g.push('  Preco..........: A partir de ' + brl(barato.price));
+  g.push('');
+  g.push('6) METAS');
+  g.push('  Conversao......: clique no botao "Ver oferta" da vitrine');
+  g.push('  Meta diaria....: 5 a 10 cliques por dia');
+  g.push('  Ajuste.........: apos 7 dias, desligue as palavras-chave que nao vendem');
+  kitG.textContent = g.join('\n');
+
+  /* ----- META ADS ----- */
+  const listaTop = top.map(p => '  - ' + p.title + ' - ' + brl(p.price) + '\n    ' + p.link).join('\n');
+  const m = [];
+  m.push('ANUNCIOS META (Facebook + Instagram) - Gerenciador de Anuncios');
+  m.push(barra);
+  m.push('');
+  m.push('1) CONFIGURACAO');
+  m.push('  Objetivo......: Trafego (cliques no link)');
+  m.push('  Link..........: ' + urlF);
+  m.push('  Botao (CTA)...: Comprar agora');
+  m.push('  Orcamento.....: R$ 20/dia, otimizacao = cliques no link');
+  m.push('  Publico.......: Brasil, 21 a 55 anos, Portugues');
+  m.push('  Interesses....: Compras online, Mercado Livre, Shopee, Cupom de desconto,');
+  m.push('                  E-commerce, Promocao, Ofertas do dia');
+  m.push('  Colocacoes....: Feed + Reels + Stories (Advantage+)');
+  m.push('');
+  m.push('2) VARIA A - MAIS VENDIDOS (prova social)');
+  m.push('  TEXTO PRINCIPAL:');
+  m.push('  Achados que estao vendendo demais hoje:\n');
+  top.forEach(p => m.push('  * ' + p.title + ' - ' + brl(p.price)));
+  m.push('');
+  m.push('  Frete gratis e ate 12x sem juros. Compra 100% segura pelo ' + STORE_LABEL[top[0].store] + ' e demais lojas da vitrine.');
+  m.push('  Confira antes que acabe: ' + urlF);
+  m.push('  TITULO......: Ver ofertas do dia');
+  m.push('  DESCRICAO...: Frete gratis | Ate 12x sem juros');
+  m.push('');
+  m.push('3) VARIA B - DESTAQUE COM DESCONTO');
+  m.push('  TEXTO PRINCIPAL:');
+  m.push('  ' + comDesconto.title);
+  m.push('  De ' + brl(comDesconto.oldprice) + ' por ' + brl(comDesconto.price) + ' (' + discount(comDesconto) + '% OFF) - so enquanto durar o estoque.');
+  m.push('');
+  m.push('  Compre direto pelo link (funciona no celular e no PC):');
+  m.push('  ' + comDesconto.link);
+  m.push('  Vitrine completa com ' + list.length + ' ofertas: ' + urlF);
+  m.push('  TITULO......: ' + comDesconto.title.slice(0, 40));
+  m.push('  DESCRICAO...: ' + brl(comDesconto.price) + ' | Frete gratis');
+  m.push('');
+  m.push('4) VARIA C - MENOR PRECO (conversao rapida)');
+  m.push('  TEXTO PRINCIPAL:');
+  m.push('  Achei um achadinho de ' + brl(barato.price) + ' e nao podia nao compartilhar:\n');
+  m.push('  ' + barato.title);
+  m.push('  ' + barato.desc);
+  m.push('');
+  m.push('  Link direto: ' + barato.link);
+  m.push('  ' + urlI);
+  m.push('  TITULO......: A partir de ' + brl(barato.price));
+  m.push('  DESCRICAO...: Estoque limitado | Frete gratis');
+  m.push('');
+  m.push('5) GESTAO');
+  m.push('  Deixe os 3 rodando 7 dias com a mesma verba. Depois desligue os 2 piores');
+  m.push('  e multiplique por 2 a verba do vencedor.');
+  kitMeta.textContent = m.join('\n');
+
+  /* ----- POSTS ORGANICOS ----- */
+  const p = [];
+  p.push('POSTS PRONTOS - Feed, Grupos, Reels e TikTok');
+  p.push(barra);
+  p.push('');
+  p.push('1) FEED DO FACEBOOK / INSTAGRAM (carrossel com as ' + top.length + ' fotos)');
+  p.push('  ---------------------------------------------------------');
+  p.push('  ' + cfg.name + ' abriu a vitrine e tem ' + list.length + ' ofertas imperdiveis hoje:\n');
+  top.forEach(x => p.push('  ' + x.title + '\n  ' + brl(x.price) + ' - ' + x.link + '\n'));
+  p.push('  Frete gratis, ate 12x sem juros e compra garantida pelo Mercado Livre e Shopee.');
+  p.push('  Toda a vitrine: ' + urlF);
+  p.push('  Salva esse post, porque as ofertas trocam todo dia.');
+  p.push('  #achadinhos #ofertas #promocao #desconto #airfryer #fonebluetooth #ofertasdodia');
+  p.push('  ---------------------------------------------------------');
+  p.push('');
+  p.push('2) GRUPOS DO FACEBOOK (mensagem curta - poste 1x por grupo por dia)');
+  p.push('  Pessoal, achei ' + barato.title.toLowerCase() + ' por ' + brl(barato.price) + ' com frete gratis:');
+  p.push('  ' + barato.link);
+  p.push('  Tem Air Fryer, headphone e mais ' + list.length + ' ofertas aqui: ' + urlF);
+  p.push('  Alguem pegou? Comenta ai que eu te ajudo a escolher.');
+  p.push('');
+  p.push('3) REELS / TIKTOK - ROTEIRO15s');
+  p.push('  0-3s  : "Para de rolar, olha o preco disso" (mostra a tela da vitrine)');
+  p.push('  3-8s  : mostra ' + destaque.title + ' por ' + brl(destaque.price));
+  p.push('  8-12s : mostra ' + barato.title + ' por ' + brl(barato.price));
+  p.push('  12-15s: "Link na bio / na descricao, corre que acaba"');
+  p.push('  LEGENDA: ' + cfg.name + ' - ' + destaque.title + ' por ' + brl(destaque.price) + '. Link na bio!');
+  p.push('  HASHTAGS: #achadinhos #ofertas #achado #promocao #fyp #airfryer #fone #barato');
+  p.push('');
+  p.push('4) WHATSAPP (grupos e status)');
+  p.push('  ' + captionFor(barato, cfg).replace(/\n{3,}/g, '\n\n'));
+  kitPosts.textContent = p.join('\n');
+}
+
+function copiarKit(id, msg){
+  const txt = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(txt).then(() => alert(msg)).catch(() => alert('Selecione o texto e pressione Ctrl+C'));
+}
+document.getElementById('btnCopyG').onclick = () => copiarKit('kitGoogle', 'Campanha do Google copiada! Cole no Google Ads.');
+document.getElementById('btnCopyM').onclick = () => copiarKit('kitMeta', 'Anúncios Meta copiados! Cole no Gerenciador de Anúncios.');
+document.getElementById('btnCopyP').onclick = () => copiarKit('kitPosts', 'Posts copiados! Cole no Feed, Grupos, Reels e TikTok.');
 
 showApp(isLogged());

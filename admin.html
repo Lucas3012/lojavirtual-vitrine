@@ -36,6 +36,7 @@
       <button data-tab="novo">➕ Novo / Editar</button>
       <button data-tab="config">⚙️ Loja e Redes</button>
       <button data-tab="divulgar">📣 Divulgar (Face/Reels)</button>
+      <button data-tab="marketing">🎯 Anúncios (Google/Meta)</button>
     </aside>
     <main class="admin-main">
       <section id="tab-produtos" class="tab">
@@ -109,6 +110,32 @@
           <li><b>Grupos:</b> abra o botão Postar, troque a URL ou cole manualmente em cada grupo cadastrado em Configurações.</li>
           <li><b>Reels:</b> baixe a foto do produto, crie o Reels com a foto/vídeo, cole a legenda copiada + link na bio/stories (o Instagram/Face não permite link clicável na legenda do Reels, use “link na bio” ou stories com link).</li>
           <li><b>TikTok Shop:</b> poste o vídeo mostrando o produto e use o link de afiliado no carrinho laranja.</li>
+        </ol>
+      </section>
+
+      <section id="tab-marketing" class="tab hidden">
+        <h2>Kit de anúncios — Google &amp; Meta</h2>
+        <p>Campanhas prontas montadas com os <b>produtos reais</b> da sua vitrine. Copie e cole no Google Ads e no Gerenciador de Anúncios do Meta. Os links já saem com rastreamento (UTM) pra você acompanhar as visitas.</p>
+
+        <h3>🔎 Google Ads — Rede de Pesquisa</h3>
+        <pre id="kitGoogle" class="kit-box"></pre>
+        <div class="share-btns"><button class="btn btn-primary" id="btnCopyG">Copiar campanha Google</button></div>
+
+        <h3>📱 Meta Ads — Facebook &amp; Instagram</h3>
+        <pre id="kitMeta" class="kit-box"></pre>
+        <div class="share-btns"><button class="btn btn-primary" id="btnCopyM">Copiar anúncios Meta</button></div>
+
+        <h3>📝 Posts orgânicos (Feed, Grupos, Reels e TikTok)</h3>
+        <pre id="kitPosts" class="kit-box"></pre>
+        <div class="share-btns"><button class="btn btn-primary" id="btnCopyP">Copiar todos os posts</button></div>
+
+        <h3>🚀 Como publicar (5 passos)</h3>
+        <ol class="steps">
+          <li><b>Google Ads:</b> acesse <code>ads.google.com</code> → <b>+ Nova campanha</b> → objetivo <b>Traffic</b> → tipo <b>Pesquisa</b> → cole a URL final → escolha <b>Manual: palavras-chave</b> → cole as palavras-chave → cole título e descrições → confirme a verba e ative.</li>
+          <li><b>Meta Ads:</b> acesse <code>adsmanager.facebook.com</code> → <b>+ Criar</b> → objetivo <b>Tráfego</b> → selecione a página da loja → em <b>Texto principal</b> cole a Variação A, título e descrição → público e verba como indicado → <b>Publicar</b>.</li>
+          <li><b>Feed e Grupos:</b> use a aba <b>📣 Divulgar</b> para postar com um clique em cada grupo cadastrado em Configurações.</li>
+          <li><b>Reels / TikTok:</b> baixe a foto do produto aqui do painel, grave um vídeo de5 a15s mostrando o preço, cole a legenda pronta e coloque o link da vitrine na bio.</li>
+          <li><b>Resultados:</b> volte aqui em 3 dias — se um anúncio render menos de2 cliques/dia, pare e dobre a verba no vencedor.</li>
         </ol>
       </section>
     </main>

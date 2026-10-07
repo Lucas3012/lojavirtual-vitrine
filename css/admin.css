@@ -168,6 +168,18 @@
 .steps b{color:var(--andes-text)}
 .admin-main p{font-size:var(--andes-body-sm);color:var(--andes-text-secondary);line-height:1.6}
 
+/* ================= Kit de anúncios ================= */
+.kit-box{
+  white-space:pre-wrap; word-break:break-word;
+  background:var(--andes-surface-alt,#f7f8fa);
+  border:1px solid var(--andes-line,#e3e6ea); border-radius:12px;
+  padding:var(--andes-s4,16px);
+  font-family:ui-monospace,Consolas,"Courier New",monospace;
+  font-size:13px; line-height:1.65; color:var(--andes-text,#222);
+  max-height:480px; overflow:auto;
+}
+#tab-marketing h3{margin-top:var(--andes-s5,24px)}
+
 /* ================= Responsivo ================= */
 @media(max-width:800px){
   .admin-layout{grid-template-columns:1fr}
