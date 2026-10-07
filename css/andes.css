@@ -1,0 +1,193 @@
+/* =========================================================
+   Andes UI — design system do Mercado Libre (tokens + componentes)
+   Fonte: docs públicas do Andes Design System
+   Conecta em style.css (carregado DEPOIS para refinar)
+   ========================================================= */
+
+:root{
+  /* --- Cores Andes --- */
+  --andes-blue-100:#e3edfb;
+  --andes-blue-300:#8bb4f9;
+  --andes-blue:#3483fa;        /* ação primária */
+  --andes-blue-dark:#2968c8;   /* hover */
+  --andes-blue-ghost:#eaf2ff;
+  --andes-yellow:#ffe600;      /* identidade Mercado Livre */
+  --andes-yellow-dark:#f2d900;
+  --andes-green:#00a650;       /* preço frete / desconto */
+  --andes-orange:#f75c00;      /* tags promo */
+  --andes-purple:#2d3277;      /* logo */
+  --andes-red:#ff4444;
+
+  /* --- Neutros Andes --- */
+  --andes-text:#333333;
+  --andes-text-secondary:#666666;
+  --andes-text-disabled:#999999;
+  --andes-bg:#f5f5f5;
+  --andes-surface:#ffffff;
+  --andes-line:#e6e6e6;
+  --andes-line-strong:#cccccc;
+
+  /* --- Raios (Andes radius scale) --- */
+  --andes-radius-sm:4px;
+  --andes-radius:6px;
+  --andes-radius-lg:8px;
+  --andes-radius-xl:16px;
+  --andes-radius-pill:999px;
+
+  /* --- Elevação (Andes shadows) --- */
+  --andes-shadow-1:0 1px 2px rgba(0,0,0,.12);
+  --andes-shadow-2:0 2px 8px rgba(0,0,0,.14);
+  --andes-shadow-3:0 8px 24px rgba(0,0,0,.18);
+
+  /* --- Espaçamento (Andes spacing scale 4/8/12/16/24/32/48) --- */
+  --andes-s1:4px; --andes-s2:8px; --andes-s3:12px;
+  --andes-s4:16px; --andes-s5:24px; --andes-s6:32px; --andes-s7:48px;
+
+  /* --- Tipografia Andes --- */
+  --andes-font:"Proxima Nova",Arial,Helvetica,sans-serif;
+  --andes-caption:12px;
+  --andes-body-sm:14px;
+  --andes-body:16px;
+  --andes-title:20px;
+  --andes-title-lg:28px;
+  --andes-display:40px;
+}
+
+/* ================= Base / acessibilidade ================= */
+body{font-family:var(--andes-font);color:var(--andes-text)}
+.container{max-width:1200px;padding:0 var(--andes-s5)}
+a,button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid var(--andes-blue);outline-offset:2px}
+.btn{transition:background .15s ease,box-shadow .15s ease,transform .08s ease}
+.btn:active{transform:scale(.985)}
+
+/* ================= Botões Andes ================= */
+.btn{
+  min-height:40px;display:inline-flex;align-items:center;justify-content:center;
+  gap:var(--andes-s2);border-radius:var(--andes-radius);
+  font-size:var(--andes-body-sm);font-weight:500;
+}
+.btn-primary,.btn-shop{
+  background:var(--andes-blue);color:#fff;border:none;
+  box-shadow:var(--andes-shadow-1);font-weight:600;
+}
+.btn-primary:hover,.btn-shop:hover{background:var(--andes-blue-dark);box-shadow:var(--andes-shadow-2)}
+.btn-ghost{
+  background:var(--andes-surface);border:1px solid var(--andes-line-strong);
+  box-shadow:var(--andes-shadow-1);color:var(--andes-text);
+}
+.btn-ghost:hover{background:var(--andes-bg);border-color:var(--andes-text-disabled)}
+.btn-admin{background:#fff;border:1px solid rgba(0,0,0,.08);font-weight:600;color:#444;box-shadow:var(--andes-shadow-1)}
+
+/* ================= Inputs Andes ================= */
+.search-wrap input{
+  height:44px;border:1px solid transparent;border-radius:var(--andes-radius);
+  box-shadow:var(--andes-shadow-1);font-size:var(--andes-body);
+}
+.search-wrap input:hover{box-shadow:var(--andes-shadow-2)}
+.filters-row select{
+  height:44px;border:1px solid var(--andes-line-strong);
+  border-radius:var(--andes-radius);background:#fff;
+}
+#adminSearch,.form-grid input,.form-grid select,.form-grid textarea,.login-box input{
+  border-radius:var(--andes-radius);border:1px solid var(--andes-line-strong);
+}
+#adminSearch:focus,.form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus{
+  border-color:var(--andes-blue);box-shadow:0 0 0 2px var(--andes-blue-100);
+}
+
+/* ================= Chips de filtro (Andes chip) ================= */
+.pills button{
+  height:38px;padding:0 18px;border-radius:var(--andes-radius-pill);
+  border:1px solid var(--andes-line-strong);background:#fff;
+  font-size:var(--andes-body-sm);color:var(--andes-text-secondary);
+  transition:.15s;
+}
+.pills button:hover{border-color:var(--andes-blue);color:var(--andes-blue);background:var(--andes-blue-ghost)}
+.pills button.active{
+  background:var(--andes-blue);border-color:var(--andes-blue);color:#fff;
+  font-weight:600;box-shadow:var(--andes-shadow-1);
+}
+
+/* ================= Cards (Andes card) ================= */
+.card{
+  border-radius:var(--andes-radius);border:1px solid var(--andes-line);
+  background:var(--andes-surface);box-shadow:var(--andes-shadow-1);
+}
+.card:hover{box-shadow:var(--andes-shadow-3)}
+.card-body{padding:var(--andes-s4)}
+.card-body h3{font-size:var(--andes-body-sm);color:var(--andes-text)}
+.cat{font-size:var(--andes-caption)}
+
+/* Preço no padrão componente Andes "Price" */
+.price{font-size:24px;font-weight:700;letter-spacing:-.5px;color:#222}
+.price-old{font-size:var(--andes-caption);color:var(--andes-text-disabled)}
+.off-green,.frete{font-size:var(--andes-body-sm);font-weight:700;color:var(--andes-green)}
+.parcel{font-size:var(--andes-caption);color:var(--andes-text-secondary)}
+
+/* Tags promo (Andes tag) */
+.tag-hot{
+  background:var(--andes-orange);color:#fff;font-size:11px;font-weight:700;
+  padding:3px 8px;border-radius:var(--andes-radius-sm);letter-spacing:.5px;
+}
+.badge-off{
+  background:var(--andes-green);color:#fff;border-radius:var(--andes-radius-sm);
+  font-size:var(--andes-caption);font-weight:700;
+}
+.badge-store{border-radius:var(--andes-radius-sm);font-size:var(--andes-caption)}
+
+/* ================= Banner: balão Andes ================= */
+.promo-banner{
+  border-radius:var(--andes-radius-xl);
+  box-shadow:var(--andes-shadow-3);
+  padding:var(--andes-s7);
+}
+.pb-tag{
+  position:relative;border-radius:var(--andes-radius-lg);
+  font-size:13px;letter-spacing:2px;background:#111;color:var(--andes-yellow);
+}
+.pb-tag::after{
+  content:"";position:absolute;left:20px;bottom:-7px;
+  border:7px solid transparent;border-top-color:#111;border-bottom:0;
+}
+.promo-banner h1{font-size:var(--andes-display);font-weight:800;letter-spacing:-1.2px}
+.promo-banner p{font-size:var(--andes-body);color:var(--andes-text)}
+.pb-cta{
+  min-height:48px;padding:0 32px;font-size:var(--andes-body);
+  border-radius:var(--andes-radius);font-weight:600;
+}
+.pb-timer{
+  background:#111;color:#fff;border-radius:var(--andes-radius-pill);
+  font-size:var(--andes-body-sm);font-weight:700;padding:11px 18px;
+}
+.pb-points span{
+  background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.06);
+  border-radius:var(--andes-radius-pill);font-size:var(--andes-caption);
+}
+
+/* ================= Seções / ritmo do layout ================= */
+.section-head{margin-top:var(--andes-s6);margin-bottom:var(--andes-s4)}
+.section-head h2{font-size:var(--andes-title-lg);font-weight:700;color:#222;letter-spacing:-.4px}
+.section-head small{font-size:var(--andes-body-sm)}
+.see-all{font-size:var(--andes-body-sm);font-weight:600}
+.filters{border-radius:var(--andes-radius-lg);border:1px solid var(--andes-line);box-shadow:var(--andes-shadow-1)}
+.benefits-inner{font-size:var(--andes-caption);color:var(--andes-text-secondary)}
+.footer{background:#fff;border-top:1px solid var(--andes-line);color:var(--andes-text-secondary)}
+
+/* ================= Compartilhamento ================= */
+.share-row button{
+  border:1px solid var(--andes-line);background:#fff;
+  border-radius:var(--andes-radius);font-size:var(--andes-caption);
+  color:var(--andes-text-secondary);
+}
+.share-row button:hover{background:var(--andes-yellow);border-color:var(--andes-yellow-dark);color:#222}
+
+/* ================= Modal / balão ================= */
+.modal-box{border-radius:var(--andes-radius-lg);box-shadow:var(--andes-shadow-3)}
+.share-kit{background:var(--andes-bg);border:1px dashed var(--andes-line-strong);border-radius:var(--andes-radius-lg)}
+
+@media(max-width:900px){
+  .container{padding:0 var(--andes-s4)}
+  .promo-banner{padding:var(--andes-s5)}
+  .promo-banner h1{font-size:32px}
+}
