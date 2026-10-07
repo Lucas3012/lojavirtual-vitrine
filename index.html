@@ -12,24 +12,43 @@
   <div class="container topbar-inner">
     <a href="index.html" class="logo">🛍️ <span id="storeName">Achadinhos & Ofertas</span></a>
     <div class="search-wrap">
-      <input id="search" type="search" placeholder="Buscar produto... ex: fone, air fryer">
+      <input id="search" type="search" placeholder="Buscar produtos, marcas e muito mais...">
     </div>
     <nav>
-      <a href="admin.html" class="btn btn-ghost">🔒 Admin</a>
+      <a href="admin.html" class="btn btn-admin">🔒 Admin</a>
     </nav>
   </div>
-  <div class="hero">
-    <div class="container">
-      <h1 id="heroTitle">Os melhores achadinhos em um só lugar 🔥</h1>
-      <p id="heroSub">Mercado Livre • Shopee • TikTok Shop — links verificados, preço baixo todo dia.</p>
-      <div class="hero-badges">
-        <span>✔️ Links de afiliado verificados</span>
-        <span>⚡ Atualizado diariamente</span>
-        <span>📲 Pronto p/ compartilhar no Face e Reels</span>
-      </div>
+  <div class="benefits">
+    <div class="benefits-inner">
+      <span>🚚 Frete grátis</span>
+      <span>💳 Até 12x sem juros</span>
+      <span>🔒 Compra garantida</span>
+      <span>⚡ Entrega pra todo o Brasil</span>
     </div>
   </div>
 </header>
+
+<section class="container promo-banner">
+  <div class="pb-content">
+    <span class="pb-tag">OFERTA DO DIA</span>
+    <h1 id="heroTitle">Os melhores achadinhos em um só lugar 🔥</h1>
+    <p id="heroSub">Mercado Livre • Shopee • TikTok Shop — links verificados, preço baixo todo dia.</p>
+    <div class="pb-actions">
+      <a href="#ofertas" class="btn btn-primary pb-cta">Ver todas as ofertas</a>
+      <span class="pb-timer" id="pbTimer">⏳ Ofertas até 23:59</span>
+    </div>
+    <div class="pb-points">
+      <span>✔️ Links de afiliado verificados</span>
+      <span>⚡ Atualizado diariamente</span>
+      <span>📲 Pronto p/ compartilhar</span>
+    </div>
+  </div>
+  <div class="pb-visual" aria-hidden="true">
+    <img class="pb-img pb-img-1" src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80&auto=format&fit=crop" alt="">
+    <img class="pb-img pb-img-2" src="https://images.unsplash.com/photo-1626074353765-517a681e40be?w=600&q=80&auto=format&fit=crop" alt="">
+    <img class="pb-img pb-img-3" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80&auto=format&fit=crop" alt="">
+  </div>
+</section>
 
 <main class="container">
   <section class="filters">
@@ -51,12 +70,18 @@
   </section>
 
   <section id="featuredSection">
-    <h2>⭐ Destaques da semana</h2>
+    <div class="section-head">
+      <h2>⭐ Destaques da semana</h2>
+      <a class="see-all" href="#ofertas">Ver tudo →</a>
+    </div>
     <div id="featuredGrid" class="grid"></div>
   </section>
 
-  <section>
-    <h2>🛒 Todas as ofertas <small id="count"></small></h2>
+  <section id="ofertas">
+    <div class="section-head">
+      <h2>Ofertas do dia <small id="count"></small></h2>
+      <span class="section-note">Preços atualizados agora</span>
+    </div>
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty hidden">Nenhum produto encontrado. Tente outra busca.</div>
   </section>

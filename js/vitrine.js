@@ -23,25 +23,31 @@ function badgeClass(store){
 function cardHTML(p){
   const off = discount(p);
   const img = p.image || 'https://placehold.co/600x600?text='+encodeURIComponent(p.title.slice(0,20));
+  const parcel = p.price >= 100 ? `<span class="parcel">12x de ${brl(p.price/12)} sem juros</span>` : '';
   return `<article class="card">
-    <div class="card-img" data-open="${p.id}" style="cursor:pointer">
+    <div class="card-img" data-open="${p.id}">
       <img src="${img}" alt="${p.title}" loading="lazy" onerror="this.src='https://placehold.co/600x600?text=Oferta'">
       <span class="badge-store ${badgeClass(p.store)}">${STORE_LABEL[p.store]||p.store}</span>
-      ${off?`<span class="badge-off">-${off}%</span>`:''}
+      ${off?`<span class="badge-off">${off}% OFF</span>`:''}
     </div>
     <div class="card-body">
+      ${p.featured?'<span class="tag-hot">MAIS VENDIDO</span>':''}
       <span class="cat">${p.category||''}</span>
       <h3>${p.title}</h3>
-      ${p.oldprice?`<span class="price-old">${brl(p.oldprice)}</span>`:''}
-      <span class="price">${brl(p.price)}</span>
+      <div class="price-block">
+        <span class="price">${brl(p.price)}</span>
+        ${p.oldprice?`<div class="old-line"><s class="price-old">${brl(p.oldprice)}</s><span class="off-green">${off}% OFF</span></div>`:''}
+        <span class="frete">🚚 Frete grátis</span>
+        ${parcel}
+      </div>
       <div class="card-actions">
-        <a class="btn btn-shop" href="${p.link}" target="_blank" rel="nofollow sponsored noopener" data-buy="${p.id}">Ver Oferta 🛒</a>
-        <button class="btn" data-open="${p.id}">👁️</button>
+        <a class="btn btn-shop card-cta" href="${p.link}" target="_blank" rel="nofollow sponsored noopener" data-buy="${p.id}">Ver oferta</a>
+        <button class="btn btn-ghost card-eye" data-open="${p.id}" title="Ver detalhes">👁️</button>
       </div>
       <div class="share-row">
-        <button data-share="wpp" data-id="${p.id}" title="WhatsApp">💬</button>
-        <button data-share="face" data-id="${p.id}" title="Facebook">📘</button>
-        <button data-share="copy" data-id="${p.id}" title="Copiar">📋</button>
+        <button data-share="wpp" data-id="${p.id}" title="WhatsApp">💬 WhatsApp</button>
+        <button data-share="face" data-id="${p.id}" title="Facebook">📘 Facebook</button>
+        <button data-share="copy" data-id="${p.id}" title="Copiar link">🔗</button>
       </div>
     </div>
   </article>`;
@@ -153,3 +159,18 @@ fetchProducts().then(list=>{
   fillCategories();
   render();
 });
+
+// Contador do banner (estilo "oferta do dia" do Mercado Livre)
+function tickBannerTimer(){
+  const el = document.getElementById('pbTimer');
+  if(!el) return;
+  const now = new Date();
+  const end = new Date(now); end.setHours(23,59,59,999);
+  let s = Math.max(0, Math.floor((end - now)/1000));
+  const h = String(Math.floor(s/3600)).padStart(2,'0');
+  const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  el.textContent = `⏳ Termina em ${h}:${m}:${ss}`;
+}
+tickBannerTimer();
+setInterval(tickBannerTimer, 1000);
